@@ -20,8 +20,9 @@ def create_app(config_name):
 
 	#resource import area
 
-	from todo.resources import TodoListsApi
+	from todo.resources import TodoListsApi, TodoListApi
 	api.add_resource(TodoListsApi, '/api/v1/todolists')
+	api.add_resource(TodoListApi, '/api/v1/todolist', '/api/v1/todolist/<int:id>')
 
 	db.init_app(app)
 	return app

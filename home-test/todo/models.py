@@ -21,6 +21,15 @@ class Task(db.Model):
             todoList_id=self.todoList_id,
             task_done=self.task_done
         )
+    def save(self):
+        db.session.add(self)
+        db.session.commit()
+
+    def delete(self):
+        db.session.delete(self)
+        db.session.commit()
+
+
 
 class TodoList(db.Model):
     __tablename__ = 'todoLists'
@@ -41,3 +50,19 @@ class TodoList(db.Model):
             todoList_done=self.todoList_done,
             tasks=[ task.to_dict() for task in self.tasks ]
         )
+
+    def save(self):
+        db.session.add(self)
+        db.session.commit()
+
+    def delete(self):
+        db.session.delete(self)
+        db.session.commit()
+
+    @classmethod
+    def get_all(cls):
+        return cls.query.all()
+
+    @classmethod
+    def get_by_id(cls, id):
+        return cls.query.filter_by(todoListID=id).first()
