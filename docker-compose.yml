@@ -1,0 +1,38 @@
+version: '3'
+
+services:
+  home-test:
+    restart: always
+    container_name: home-test
+    build: ./home-test
+    volumes:
+      - ./home-test:/usr/src/home-test
+    environment:
+    -  APP_SETTINGS=${APP_SETTINGS}
+    -  FLASK_APP=${FLASK_APP}
+    -  FLASK_ENV=${FLASK_ENV}
+    - POSTGRES_USER=${POSTGRES_USER}
+    - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    - POSTGRES_DB=${POSTGRES_DB}
+    -  SECRET_KEY=${SECRET_KEY}
+
+    ports:
+      - '5001:5000'
+    links:
+      - db
+    depends_on:
+      - db
+
+  db:
+    restart: always
+    container_name: database
+
+    image: postgres:latest
+    ports:
+      - '5432:5432'
+    volumes:
+      - ./data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
