@@ -1,5 +1,4 @@
 # home_app
 
-<
-mkdir data
->
+
+  mkdir data
