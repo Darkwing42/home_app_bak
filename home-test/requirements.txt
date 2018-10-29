@@ -7,4 +7,3 @@ flask-sqlalchemy
 flask-migrate
 psycopg2-binary
 celery
-uwsgi

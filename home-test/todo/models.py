@@ -1,10 +1,13 @@
 from app import db
 from datetime import datetime
+from sqlalchemy.dialects.postgresql import UUID
+import uuid
 
 class Task(db.Model):
 
     __tablename__ = 'tasks'
 
+    id = db.Column(UUID(as_uuid=True), default=lambda: uuid.uuid4().hex)
     taskID = db.Column(db.Integer, primary_key=True)
     task_name = db.Column(db.String(200))
     todoList_id = db.Column(db.Integer, db.ForeignKey('todoLists.todoListID'), nullable=False)
@@ -16,9 +19,8 @@ class Task(db.Model):
 
     def to_dict(self):
         return dict(
-            taskID=self.taskID,
+            id=str(self.id),
             task_name=self.task_name,
-            todoList_id=self.todoList_id,
             task_done=self.task_done
         )
     def save(self):
@@ -34,6 +36,7 @@ class Task(db.Model):
 class TodoList(db.Model):
     __tablename__ = 'todoLists'
 
+    id = db.Column(UUID(as_uuid=True), default=lambda: uuid.uuid4())
     todoListID = db.Column(db.Integer, primary_key=True)
     todoList_name = db.Column(db.String(200))
     todoList_done = db.Column(db.Boolean, default=False)
@@ -45,7 +48,8 @@ class TodoList(db.Model):
 
     def to_dict(self):
         return dict(
-            todoListID=self.todoListID,
+            id=str(self.id),
+            
             todoList_name=self.todoList_name,
             todoList_done=self.todoList_done,
             tasks=[ task.to_dict() for task in self.tasks ]

@@ -61,15 +61,13 @@ class TodoListApi(Resource):
 
             return {'message': 'Successfully saved new data'}, 201
         else:
-			todoList.todoList_name = data['todoList_name']
-			todoList.todoList_done = data['todoList_done']
+            todoList.todoList_name = data['todoList_name']
+            todoList.todoList_done = data['todoList_done']
+            for t in data['tasks']:
+                task = Task.query.get(t['taskID'])
+                task.task_name = t['task_name']
+                task.task_done = t['task_done']
 
-			for t in data['tasks']:
-				task = Task.query.get(t['taskID'])
-				task.task_name = t['task_name']
-				task.task_done = t['task_done']
-			
-			todoList.save()
-				
-			
+
+            todoList.save()
             return {'message': 'Updated data with '}
