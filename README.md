@@ -36,7 +36,7 @@ folgt
 
 <pre><code>
 pacman -S docker docker-compose
-</code></re>
+</code></pre>
 
 ### MacOSX
 
